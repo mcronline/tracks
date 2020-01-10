@@ -1,22 +1,31 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import LoginForm from '../components/LoginForm';
 
-const SignupScreen = () =>{
+const SignupScreen = ({ navigation }) =>{
 
     return(
         <View style={styles.container}>
             <Text style={{ marginVertical : 15, textAlign : 'center', fontSize : 36}}>Sign in for Tracks</Text>
             <LoginForm buttonLabel="Sign Up" />
-            <Text style={{ textAlign : 'center' }}>Don't have a Account</Text>
-            <Text style={{ textAlign : 'center' }}>SIGN UP</Text>
+            <Text style={{ textAlign : 'center' }}>Don't have an account?</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+                <Text style={{ textAlign : 'center' }}>SIGN UP</Text>
+            </TouchableOpacity>
         </View>
     )
 }
 
+SignupScreen.navigationOptions = {
+    header : null
+};
+
 const styles = StyleSheet.create({
     container : {
-        margin : 20
+        margin : 20,
+        flex : 1,
+        justifyContent : 'center',
+        marginBottom : 80
     }
 });
 
