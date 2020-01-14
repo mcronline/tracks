@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import LoginForm from '../components/LoginForm';
 import { Context as authContext } from "../context/authContext";
 
 const SignupScreen = ({ navigation }) => {
-
-    const [email, setEmail] = setState('');
-    const [password, setPassword] = setState('');
-
+    
+    const {state, signup} = useContext(authContext);
+    
     return(
         <View style={styles.container}>
             <Text style={{ marginVertical : 15, textAlign : 'center', fontSize : 36}}>Sign Up for Tracks</Text>
 
-            <LoginForm buttonLabel="Sign Up" data={{email, password}} />
+            <LoginForm                 
+                buttonLabel='Sign Up'
+                buttonAction={(email, password) => signup({ email, password })}
+            />
 
             <Text style={{ textAlign : 'center' }}>Already have an account?</Text>
             <TouchableOpacity onPress={() => navigation.navigate('Signin')}>
