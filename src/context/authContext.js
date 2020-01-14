@@ -1,6 +1,7 @@
 import createDataContext from './createDataContext';
 import trackerApi from '../api/tracker';
 import ErrorAlert from '../components/ErrorAlert';
+import { navigate } from '../navigationRef';
 
 const authReducer = (state, action) => {
     console.log(action);
@@ -26,23 +27,23 @@ const actions = {
                 }
             });
         }catch(err){
-            ErrorAlert(err.response.data, "Problem to Sign In");
+            ErrorAlert(err.response.data.messsage, "Problem to Sign In");
         }
     },
     'signup' : dispatch => async ({ email, password }) => {
+        
         try{
             const response = await trackerApi.post('/signup',{email,password});
-            console.log(response.data)                ;
             const token = response.data.token;
-            //console.log(token);
             dispatch({
                 type : "signup",
                 payload : {
                     token
                 }
             });
+
+            navigate('mainFlow');
         }catch(err){
-            console.log(err.response.data);
             ErrorAlert(err.response.data.message, 'Problem to Sign Up');
         }
     
@@ -60,5 +61,5 @@ const actions = {
 export const {Provider, Context} = createDataContext(
     authReducer,
     actions,
-    {isSignedIn : false}
+    {token : null}
 );
