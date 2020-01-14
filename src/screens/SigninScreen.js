@@ -7,7 +7,10 @@ const SignupScreen = ({ navigation }) =>{
     return(
         <View style={styles.container}>
             <Text style={{ marginVertical : 15, textAlign : 'center', fontSize : 36}}>Sign in for Tracks</Text>
-            <LoginForm buttonLabel="Sign Up" />
+            <LoginForm 
+                buttonLabel="Sign in"
+                buttonAction={() => {}}
+             />
             <Text style={{ textAlign : 'center' }}>Don't have an account?</Text>
             <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
                 <Text style={{ textAlign : 'center' }}>SIGN UP</Text>
