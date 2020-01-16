@@ -2,6 +2,7 @@ import createDataContext from './createDataContext';
 import trackerApi from '../api/tracker';
 import ErrorAlert from '../components/ErrorAlert';
 import { navigate } from '../navigationRef';
+import { AsyncStorage } from 'react-native';
 
 const authReducer = (state, action) => {
     switch(action.type){
@@ -15,9 +16,30 @@ const authReducer = (state, action) => {
 }
 
 const actions = {
+    'checkLocalToken' : dispatch => async () => {
+
+        const token = await AsyncStorage.getItem('token');
+        
+        if(token){
+            dispatch({
+                type : 'signin',
+                payload : {
+                    token
+                }
+            });
+
+            navigate('mainFlow');
+
+        }else{
+            navigate('loginFlow');
+
+        }
+
+    },
+
     'signin' : dispatch => async ({ email, password }) => {
         try{
-            console.log(email, password);
+            
             const response = await trackerApi.get('/signin', {email, password});
             const token = response.data.token;
             
@@ -34,6 +56,7 @@ const actions = {
             ErrorAlert(err.response.data.error, "Problem to Sign In");
         }
     },
+
     'signup' : dispatch => async ({ email, password }) => {
         
         try{
@@ -54,6 +77,7 @@ const actions = {
         }
     
     },
+
     'signout' : dispatch => () => {
         dispatch({
             type : "signout",

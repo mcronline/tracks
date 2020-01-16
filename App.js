@@ -10,12 +10,14 @@ import SignupScreen from './src/screens/SignupScreen';
 import TrackCreateScreen from './src/screens/TrackCreateScreen';
 import TrackDetailScreen from './src/screens/TrackDetailScreen';
 import TrackListScreen from './src/screens/TrackListScreen';
+import LocalTokenCheck from './src/screens/LocalSigninScreen';
 
 import { Provider as AuthProvider } from './src/context/authContext';
 
 import { setNavigation } from './src/navigationRef';
 
 const switchNavigator = createSwitchNavigator({
+    LocalTokenCheck,
     loginFlow : createStackNavigator({
         Signin : SigninScreen,
         Signup : SignupScreen        
