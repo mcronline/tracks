@@ -38,17 +38,20 @@ const actions = {
     },
 
     'signin' : dispatch => async ({ email, password }) => {
+        
         try{
             
-            const response = await trackerApi.get('/signin', {email, password});
+            const response = await trackerApi.post('/signin', {email, password});
             const token = response.data.token;
-            
+                        
             dispatch({
                 type : "signin",
                 payload : {
                     token
                 }
             });
+
+            await AsyncStorage.setItem('token',token)
 
             navigate('mainFlow');
 
@@ -70,6 +73,8 @@ const actions = {
                 }
             });
 
+            await AsyncStorage.setItem('token',token)
+
             navigate('mainFlow');
 
         }catch(err){
@@ -85,6 +90,8 @@ const actions = {
                 token : null
             }
         });
+
+        navigate('loginFlow');
     }
 };
 
