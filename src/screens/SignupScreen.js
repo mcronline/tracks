@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import LoginForm from '../components/LoginForm';
 import { Context as authContext } from "../context/authContext";
