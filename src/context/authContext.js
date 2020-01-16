@@ -4,11 +4,10 @@ import ErrorAlert from '../components/ErrorAlert';
 import { navigate } from '../navigationRef';
 
 const authReducer = (state, action) => {
-    console.log(action);
     switch(action.type){
 
-        case 'signup':
-            return {...state, token : action.payload.token};
+        case 'signin':
+            return {...state, token : action.payload.token}; // Same state update for signin and signup
 
         default:
             return state;
@@ -18,33 +17,40 @@ const authReducer = (state, action) => {
 const actions = {
     'signin' : dispatch => async ({ email, password }) => {
         try{
-            const response = await trackerApi.get('/signin',{email,password});
+            console.log(email, password);
+            const response = await trackerApi.get('/signin', {email, password});
             const token = response.data.token;
+            
             dispatch({
                 type : "signin",
                 payload : {
                     token
                 }
             });
+
+            navigate('mainFlow');
+
         }catch(err){
-            ErrorAlert(err.response.data.messsage, "Problem to Sign In");
+            ErrorAlert(err.response.data.error, "Problem to Sign In");
         }
     },
     'signup' : dispatch => async ({ email, password }) => {
         
         try{
-            const response = await trackerApi.post('/signup',{email,password});
+            const response = await trackerApi.post('/signup', {email, password});
             const token = response.data.token;
+            
             dispatch({
-                type : "signup",
+                type : "signin",
                 payload : {
                     token
                 }
             });
 
             navigate('mainFlow');
+
         }catch(err){
-            ErrorAlert(err.response.data.message, 'Problem to Sign Up');
+            ErrorAlert(err.response.data.error, 'Problem to Sign Up');
         }
     
     },
