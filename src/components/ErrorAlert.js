@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 
 export default (message, title = "There was a problem") => {
 
-    if(!message) console.error("Specify a message for the ErrorAlert Component");
+    if(!message) message = "A problem has occured";
     
     Alert.alert(
         title,
