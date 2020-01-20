@@ -10,6 +10,9 @@ const authReducer = (state, action) => {
         case 'signin':
             return {...state, token : action.payload.token}; // Same state update for signin and signup
 
+        case 'signout':
+            return {...state, token : null};
+
         default:
             return state;
     }
@@ -51,7 +54,7 @@ const actions = {
                 }
             });
 
-            await AsyncStorage.setItem('token',token)
+            await AsyncStorage.setItem('token',token);
 
             navigate('mainFlow');
 
@@ -73,7 +76,7 @@ const actions = {
                 }
             });
 
-            await AsyncStorage.setItem('token',token)
+            await AsyncStorage.setItem('token',token);
 
             navigate('mainFlow');
 
@@ -83,13 +86,12 @@ const actions = {
     
     },
 
-    'signout' : dispatch => () => {
+    'signout' : dispatch => async () => {
         dispatch({
-            type : "signout",
-            payload : {
-                token : null
-            }
+            type : "signout"
         });
+        
+        AsyncStorage.removeItem('token');
 
         navigate('loginFlow');
     }
