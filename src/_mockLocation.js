@@ -5,6 +5,16 @@ const tenMetersWithDegrees = 0.0001;
 const initialLatitude = 37.33233;
 const initialLongitude = -122.03121;
 
+let counter = 1;
+
+const emitLocation = () => {
+    Location.EventEmitter.emit('Expo.locationChanged',{
+        watchId : Location._getCurrentWatchId(),
+        location : getLocation(counter)
+    });
+    counter++;
+}
+
 const getLocation = increment => {
     return {
         timestamp : 10000000,
@@ -20,11 +30,5 @@ const getLocation = increment => {
     }
 }
 
-let counter = 0;
-setInterval(() => {
-    Location.EventEmitter.emit('Expo.locationChanged',{
-        watchId : Location._getCurrentWatchId(),
-        location : getLocation(counter)
-    });
-    counter++;
-}, 1000);
+emitLocation();
+setInterval(emitLocation, 500);
