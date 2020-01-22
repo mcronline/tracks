@@ -13,6 +13,7 @@ import TrackListScreen from './src/screens/TrackListScreen';
 import LocalTokenCheck from './src/screens/LocalSigninScreen';
 
 import { Provider as AuthProvider } from './src/context/authContext';
+import { Provider as LocationProvider } from './src/context/locationContext';
 
 import { setNavigation } from './src/navigationRef';
 
@@ -36,8 +37,10 @@ const App = createAppContainer(switchNavigator);
 
 export default () => {
     return (
-        <AuthProvider>
-            <App ref={ (navigator) => { setNavigation(navigator) }} />
-        </AuthProvider>
+        <LocationProvider>
+            <AuthProvider>
+                <App ref={ (navigator) => { setNavigation(navigator) }} />
+            </AuthProvider>
+        </LocationProvider>
     );
 };

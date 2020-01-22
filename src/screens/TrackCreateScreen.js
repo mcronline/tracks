@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
+
+import useLocation from '../hooks/useLocation';
+
 import Map from '../components/Map';
+import ErrorAlert from '../components/ErrorAlert';
+
 import * as Permissions from 'expo-permissions';
 import { watchPositionAsync, Accuracy } from 'expo-location';
-import ErrorAlert from '../components/ErrorAlert';
+
 import '../_mockLocation';
+
+//import { Context as LocationContext } from '../context/locationContext';
 
 const TrackCreateScreen = () =>{
 
-    const initialLatitude = 37.33233;
-    const initialLongitude = -122.03121;
-
-    const [points, setPoints] = useState([{latitude : initialLatitude, longitude : initialLongitude}]);
-
+    const { location, setLocation } = useLocation(null);
 
     const startWatching = async () => {
         try{
@@ -27,9 +30,9 @@ const TrackCreateScreen = () =>{
                 accuracy : Accuracy.BestForNavigation,
                 timeInterval : 1000,
                 distanceInterval : 10
-            }, (location) => {
-               //console.log(location);
-               setPoints([...points, {latitude : location.coords.latitude, longitude : location.coords.longitude}]);
+            }, (currentLocation) => {
+
+               setLocation(currentLocation.coords);
                
             });
 
@@ -46,9 +49,8 @@ const TrackCreateScreen = () =>{
         <SafeAreaView forceInset={{top : 'always'}}>
             <Text h3>Create a track</Text>
             <Map
-                initialLatitude={initialLatitude}
-                initialLongitude={initialLongitude}
-                points={points}
+                coords={location}
+                path={null}
             />
         </SafeAreaView>
     )

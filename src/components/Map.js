@@ -1,24 +1,30 @@
 import React from 'react';
-import { Text, StyleSheet } from 'react-native';
-import MapView, { Polyline } from 'react-native-maps';
+import { Text, StyleSheet, ActivityIndicator } from 'react-native';
+import MapView, { Polyline, Circle } from 'react-native-maps';
 
-const Map = ( {
-    initialLatitude,
-    initialLongitude,
-    points
-} ) => {
-    console.log(points[points.length - 1]);
+const Map = ({ coords, path }) => {
+
+    if(!coords)
+        return <ActivityIndicator size="large" style={{marginTop:200}} />;
+    
     return(
         <MapView
             style={style.map}
             initialRegion={{
-                latitude : initialLatitude,
-                longitude : initialLongitude,
+                latitude : coords.latitude,
+                longitude : coords.longitude,
                 latitudeDelta : 0.01,
                 longitudeDelta : 0.01
             }}
         >
-            <Polyline coordinates={points} />
+
+        <Circle
+            center={coords}
+            radius={30}
+            strokeColor="rgba(158,158,255,1.0)"
+            fillColor="rgba(158,158,255,0.3)"
+        />
+
         </MapView>
     );
 }
