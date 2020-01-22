@@ -1,16 +1,38 @@
-import React, { useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { Context as LocationContext } from '../context/locationContext';
+import ErrorAlert from '../components/ErrorAlert';
+import * as Permissions from 'expo-permissions';
+import { watchPositionAsync, Accuracy } from 'expo-location';
 
-export default (defaultValue) => {
+export default (watchPosition, callback) => {
 
-    const {state, setCurrentLocation } = useContext(LocationContext);
+    const [subscriber, setSubscriber] = useState(null);
+    
+    const startWatching = async () => {
+        try{
+            
+            const response = await Permissions.askAsync(Permissions.LOCATION);
+            if(response.status !== 'granted')
+                ErrorAlert('Location tracking was not allowed.');
+            
+            setSubscriber(await watchPositionAsync({
+                accuracy : Accuracy.BestForNavigation,
+                timeInterval : 1000,
+                distanceInterval : 10
+            }, callback));
 
-    const location = state.currentLocation;
-    const setLocation = (coords) => setCurrentLocation(coords);
-
-    return {
-        location,
-        setLocation
+        } catch (err) {
+            ErrorAlert(err.message, 'Location tracking problem');
+        }
     }
 
+    useEffect(() => {
+        console.log("=>" + watchPosition);
+        if(watchPosition)
+            startWatching();
+        else
+            subscriber.remove();
+            setSubscriber(null);
+    }, [watchPosition]);
 }
+

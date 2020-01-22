@@ -1,55 +1,32 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
-import { SafeAreaView } from 'react-navigation';
+import { SafeAreaView, withNavigationFocus } from 'react-navigation';
 
 import useLocation from '../hooks/useLocation';
 
 import Map from '../components/Map';
-import ErrorAlert from '../components/ErrorAlert';
-
-import * as Permissions from 'expo-permissions';
-import { watchPositionAsync, Accuracy } from 'expo-location';
 
 import '../_mockLocation';
 
-//import { Context as LocationContext } from '../context/locationContext';
+import { Context as LocationContext } from '../context/locationContext';
 
-const TrackCreateScreen = () =>{
 
-    const { location, setLocation } = useLocation(null);
+const TrackCreateScreen = ({ isFocused }) =>{
 
-    const startWatching = async () => {
-        try{
-            
-            const response = await Permissions.askAsync(Permissions.LOCATION);
-            if(response.status !== 'granted')
-                ErrorAlert('Location tracking was not allowed.');
-
-            await watchPositionAsync({
-                accuracy : Accuracy.BestForNavigation,
-                timeInterval : 1000,
-                distanceInterval : 10
-            }, (currentLocation) => {
-
-               setLocation(currentLocation.coords);
-               
-            });
-
-        } catch (err) {
-            ErrorAlert(err.message, 'Location tracking problem');
-        }
-    }
-
-    useEffect(() => {
-        startWatching();
-    }, []);
+    const {state, setCurrentLocation} = useContext(LocationContext);
+    
+    useLocation(isFocused, (currentLocation) => {
+        console.log("HI!!");
+        if(currentLocation.coords.latitude != 37.4219983)
+            setCurrentLocation(currentLocation.coords);
+    });
 
     return(
         <SafeAreaView forceInset={{top : 'always'}}>
             <Text h3>Create a track</Text>
             <Map
-                coords={location}
+                coords={state.currentLocation}
                 path={null}
             />
         </SafeAreaView>
@@ -60,4 +37,4 @@ const style = StyleSheet.create({
     
 });
 
-export default TrackCreateScreen;
+export default withNavigationFocus(TrackCreateScreen);
