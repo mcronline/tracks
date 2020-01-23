@@ -1,6 +1,4 @@
 import createDataContext from './createDataContext';
-import trackerAPI from '../api/tracker';
-import ErrorAlert from '../components/ErrorAlert';
 
 const locationReducer = (state, action) => {
 
@@ -12,20 +10,37 @@ const locationReducer = (state, action) => {
                 currentLocation : action.payload
             }
 
-        case 'recordLocation':
+        case 'setRecordName':
             return {
                 ...state,
-                locations : [
-                    ...state.locations,
-                    action.payload
-                ]
+                recordName : action.payload
+            }
+            
+
+        case 'recordLocation':
+            if(state.recording){
+                return {
+                    ...state,
+                    locations : [
+                        ...state.locations,
+                        action.payload
+                    ]
+                }
+            }else{
+                return {
+                    ...state
+                }                
             }
 
         case 'startRecording':
             return {...state, recording : true};
 
         case 'stopRecording':
-            return {...state, recording : false};
+            return {
+                ...state,
+                recording : false,
+                locations : []
+            };
 
         default:
             return state;
@@ -36,7 +51,6 @@ const locationReducer = (state, action) => {
 const actions = {
 
     setCurrentLocation : dispatch => (coords) => {
-
         if(coords){
             dispatch({
                 type : 'setCurrentLocation',
@@ -47,13 +61,20 @@ const actions = {
             console.log(`Invalid coordinates for current location. Lat - ${coords.latitude} / Lon - ${coords.longitude}`);
 
         }
+
+    },
+
+    setRecordName : dispatch => async (name) => {
+        dispatch({
+            type : 'setRecordName',
+            payload : name
+        })
     },
 
     recordLocation : dispatch => async (coords) => {
-
         if(coords){
             dispatch({
-                type : 'addLocation',
+                type : 'recordLocation',
                 payload : coords
             });
 
@@ -61,24 +82,30 @@ const actions = {
             console.log(`Invalid coordinates to update track. Lat - ${coords.latitude} / Lon - ${coords.longitude}`);
 
         }
+        
     },
 
     startRecording : dispatch => () => {
         dispatch({
             type : 'startRecording'
         });
+        
     },
 
     stopRecording : dispatch => () => {
         dispatch({
             type : 'stopRecording'
         });
+
     }
+
+
 }
 
 const defaultState = {
     recording : false,
     currentLocation : null,
+    recordName : "",
     locations : []
 }
 

@@ -25,6 +25,8 @@ const Map = ({ coords, path }) => {
             fillColor="rgba(158,158,255,0.3)"
         />
 
+        <Polyline coordinates={path} />
+
         </MapView>
     );
 }

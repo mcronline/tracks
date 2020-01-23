@@ -6,5 +6,8 @@ export const formStyle = StyleSheet.create({
     },
     button : {
         marginVertical : 10
+    },
+    centerText : {
+        textAlign : 'center'
     }
 });
