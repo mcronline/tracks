@@ -1,4 +1,5 @@
 import createDataContext from './createDataContext';
+import { navigate } from '../navigationRef';
 
 const locationReducer = (state, action) => {
 
@@ -39,7 +40,8 @@ const locationReducer = (state, action) => {
             return {
                 ...state,
                 recording : false,
-                locations : []
+                locations : [],
+                recordName : ''
             };
 
         default:
@@ -96,6 +98,8 @@ const actions = {
         dispatch({
             type : 'stopRecording'
         });
+
+        navigate('TrackList');
 
     }
 
