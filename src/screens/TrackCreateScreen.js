@@ -16,7 +16,7 @@ const TrackCreateScreen = ({ isFocused }) =>{
 
     const {state, setCurrentLocation, stopRecording, recordLocation} = useContext(locationContext);
     
-    useLocation(isFocused, useCallback((currentLocation) => {
+    useLocation(isFocused, state.recording, useCallback((currentLocation) => {
         
         if(currentLocation.coords.latitude != 37.4219983){
             setCurrentLocation(currentLocation.coords);
@@ -37,7 +37,6 @@ const TrackCreateScreen = ({ isFocused }) =>{
                 path={state.locations}
             />
             <TrackForm />
-            <NavigationEvents onWillBlur={() => state.recording ? stopRecording() : null} />
         </SafeAreaView>
     )
 }

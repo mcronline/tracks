@@ -3,7 +3,7 @@ import ErrorAlert from '../components/ErrorAlert';
 import * as Permissions from 'expo-permissions';
 import { watchPositionAsync, Accuracy } from 'expo-location';
 
-export default (watchPosition, callback) => {
+export default (watchPosition, isRecording, callback) => {
 
     useEffect(() => {
         let subscriber;
@@ -26,7 +26,7 @@ export default (watchPosition, callback) => {
             }
         }
 
-        if(watchPosition){
+        if(watchPosition || isRecording){
             startWatching();
 
         }else{
