@@ -1,21 +1,22 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
-import { TrackingStateReason } from 'expo/build/AR';
 
 const instance = axios.create({
-    baseURL : ' http://f56370aa.ngrok.io'
+    baseURL : 'http://70045c4e.ngrok.io'
 });
 
 instance.interceptors.request.use(
-    (config) => {
+    async (config) => {
         const token = await AsyncStorage.getItem('token');
         
         if(token)
             config.headers.Authorization = `Bearer ${token}`;
 
+        return config;
     },
     (err) => {
         return Promisse.reject(err);
+
     }
 )
 
