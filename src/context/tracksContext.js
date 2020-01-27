@@ -64,7 +64,7 @@ const actions = {
             
             dispatch({
                 type : 'removeTrack',
-                payload : response.data._id
+                payload : id
             });
             
         }catch(err){
