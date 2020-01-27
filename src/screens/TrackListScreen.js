@@ -46,12 +46,16 @@ const TrackListScreen = () =>{
     return (
         <View style={basics.mainContainer}>
             <NavigationEvents onWillFocus={fetchTracks} />
-            <Text h3>Your Tracks</Text>
-            <FlatList
-                data = { state }
-                renderItem = { renderItem }
-                keyExtractor = { (item) => {return item._id; }}
-            />
+            <Text h3 style={{ textAlign : 'center' }}>Your Tracks</Text>
+            {
+                state.length > 0 ?
+                <FlatList
+                    data = { state }
+                    renderItem = { renderItem }
+                    keyExtractor = { (item) => {return item._id; }}
+                /> :            
+                <Text style={{ textAlign : 'center', paddingTop : 20, fontSize : 20 }}>Let's track!</Text>
+            }
         </View>
     )
 }
