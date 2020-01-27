@@ -3,11 +3,13 @@ import { View, StyleSheet } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import { formStyle } from '../styles/forms';
 import { Context as locationContext } from '../context/locationContext';
+import { Context as tracksContext } from '../context/tracksContext';
 import ErrorAlert from '../components/ErrorAlert';
 
 const TrackForm = () => {
 
     const {state, setRecordName, startRecording, stopRecording} = useContext(locationContext);
+    const { addTrack } = useContext(tracksContext);
     
     const [buttonTitle, setButtonTitle] = useState(state.recording ? "Stop Recording" : "Start Recording");
     const [disabledRecordName, setDisabledRecordName] = useState(state.recording ? true : false);
@@ -28,6 +30,7 @@ const TrackForm = () => {
     const startStopRecording = () => {
 
         if(state.recording){
+            addTrack(state.recordName, state.locations);
             stopRecording();
 
         }else if(state.recordName === ""){
