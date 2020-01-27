@@ -1,7 +1,7 @@
 import React, { useContext, useCallback } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
-import { SafeAreaView, withNavigationFocus, NavigationEvents } from 'react-navigation';
+import { SafeAreaView, withNavigationFocus } from 'react-navigation';
 
 import useLocation from '../hooks/useLocation';
 
@@ -14,7 +14,7 @@ import { Context as locationContext } from '../context/locationContext';
 
 const TrackCreateScreen = ({ isFocused }) =>{
 
-    const {state, setCurrentLocation, stopRecording, recordLocation} = useContext(locationContext);
+    const {state, setCurrentLocation, recordLocation} = useContext(locationContext);
     
     useLocation(isFocused, state.recording, useCallback((currentLocation) => {
         
