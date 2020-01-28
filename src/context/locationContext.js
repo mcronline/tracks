@@ -77,7 +77,10 @@ const actions = {
         if(coords){
             dispatch({
                 type : 'recordLocation',
-                payload : coords
+                payload : {
+                    timestamp : Date.parse(new Date()),
+                    coords
+                }
             });
 
         }else{

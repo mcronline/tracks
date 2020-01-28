@@ -1,5 +1,4 @@
 import React, { useContext, useCallback } from 'react';
-import { StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
 import { SafeAreaView, withNavigationFocus } from 'react-navigation';
 
@@ -34,15 +33,11 @@ const TrackCreateScreen = ({ isFocused }) =>{
             <Text h3>Create a track</Text>
             <Map
                 coords={state.currentLocation}
-                path={state.locations}
+                path={state.locations.map(( location ) => location.coords)}
             />
             <TrackForm />
         </SafeAreaView>
     )
 }
-
-const style = StyleSheet.create({
-    
-});
 
 export default withNavigationFocus(TrackCreateScreen);
