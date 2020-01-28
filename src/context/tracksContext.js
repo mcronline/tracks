@@ -13,7 +13,6 @@ const tracksReducer = (state, action) => {
             ];
 
         case 'removeTrack':
-            console.log(action.payload);
             return state.filter(track => track._id !== action.payload);
 
         case 'fetchTracks':
@@ -38,7 +37,7 @@ const tracksReducer = (state, action) => {
 const actions = {
 
     addTrack : dispatch => async (name, locations) => {
-
+        
         try{
             const response = await trackerAPI.post('/tracks', {name, locations});
             
@@ -51,7 +50,6 @@ const actions = {
             });
 
         }catch(err){
-            console.log("ERROR => " + err.response.data);
             ErrorAlert(err.response.data.error, "Could't add track");
         }
         
@@ -99,7 +97,7 @@ const actions = {
     getTrack : dispatch => async (id) => {
 
         try{
-            const response = await trackerAPI.get(`/tracks/:${id}`);
+            const response = await trackerAPI.get(`/tracks/${id}`);
             dispatch({
                 type : 'getTrack',
                 payload : response.data
