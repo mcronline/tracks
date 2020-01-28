@@ -2,8 +2,8 @@ import React from 'react';
 import { Text, StyleSheet, ActivityIndicator } from 'react-native';
 import MapView, { Polyline, Circle } from 'react-native-maps';
 
-const Map = ({ coords, path }) => {
-
+const Map = ({ coords, path, trackPosition = true }) => {
+    
     if(!coords)
         return <ActivityIndicator size="large" style={{marginTop:200}} />;
     
@@ -17,14 +17,17 @@ const Map = ({ coords, path }) => {
                 longitudeDelta : 0.01
             }}
         >
-
-        <Circle
-            center={coords}
-            radius={30}
-            strokeColor="rgba(158,158,255,1.0)"
-            fillColor="rgba(158,158,255,0.3)"
-        />
-
+            {
+            trackPosition ?
+            <Circle
+                center={coords}
+                radius={30}
+                strokeColor="rgba(158,158,255,1.0)"
+                fillColor="rgba(158,158,255,0.3)"
+            />
+            :
+            null
+            }
         <Polyline coordinates={path} />
 
         </MapView>
