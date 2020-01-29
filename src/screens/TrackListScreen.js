@@ -7,8 +7,9 @@ import { Text, ListItem, Icon } from 'react-native-elements';
 import { Feather } from '@expo/vector-icons';
 
 import basics from '../styles/basics';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const TrackListScreen = () =>{
+const TrackListScreen = ({ navigation }) =>{
 
     const { state, fetchTracks, removeTrack } = useContext(tracksContext);
 
@@ -32,15 +33,20 @@ const TrackListScreen = () =>{
     }
 
     const renderItem = ({ item }) => {
-        return <ListItem 
-            title = { item.name }
-            rightIcon = { <Feather 
-                    name='trash' 
-                    size={20}
-                    onPress = { () => removeAlert(item._id, item.name) } 
-                /> }
-            bottomDivider
-        />
+        return (
+            
+                <ListItem 
+                    title = { item.name }
+                    onPress={() => navigation.navigate('TrackDetail', {trackId : item._id})}
+                    rightIcon = { <Feather 
+                            name='trash' 
+                            size={20}
+                            onPress = { () => removeAlert(item._id, item.name) } 
+                        /> }
+                    bottomDivider
+                />
+            
+        );
     };
     
     return (
